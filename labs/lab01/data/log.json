@@ -1,0 +1,26 @@
+[
+    {
+        "event": "login",
+        "user": "forensic_admin",
+        "result": "success",
+        "timestamp": "2026-09-09 17:48:05",
+        "args": [],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "forensic_admin",
+        "result": "failure",
+        "timestamp": "2026-09-09 17:48:05",
+        "args": [],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "unknown_user",
+        "result": "failure",
+        "timestamp": "2026-09-09 17:48:05",
+        "args": [],
+        "kwargs": {}
+    }
+]
