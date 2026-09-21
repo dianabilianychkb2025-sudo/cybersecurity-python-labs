@@ -10,8 +10,8 @@ project_root = os.path.abspath(
 sys.path.append(project_root)
 
 from shared import student  # noqa: E402
-from task1 import analyze_passwords  # noqa: E402
-from task2 import check_access  # noqa: E402
+from task1 import run_task1  # noqa: E402
+from task2 import run_task2  # noqa: E402
 from task3 import run_task3  # noqa: E402
 
 
@@ -24,13 +24,8 @@ def main():
     print(f"Варіант: {student.VARIANT_NUMBER}")
     print("=========================================")
 
-    # Виклик Завдання 1
-    analyze_passwords()
-
-    # Виклик Завдання 2
-    check_access()
-
-    # Виклик Завдання 3
+    run_task1()
+    run_task2()
     run_task3()
 
     print("\n=========================================")

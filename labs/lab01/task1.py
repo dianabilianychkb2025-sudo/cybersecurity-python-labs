@@ -72,7 +72,7 @@ def evaluate_password(pwd: str) -> str:
     return "Не визначено"
 
 
-def analyze_passwords():
+def run_task1():
     """Генерує додаткові паролі та викликає їх оцінку."""
     print(f"\n--- Аналіз паролів (Варіант {VARIANT_NUMBER}) ---")
 
@@ -83,7 +83,6 @@ def analyze_passwords():
 
     results = []
 
-    # Тепер код виглядає дуже чисто!
     for pwd in passwords:
         status = evaluate_password(pwd)
         results.append((pwd, status))

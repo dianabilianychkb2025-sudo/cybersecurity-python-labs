@@ -35,7 +35,7 @@ security_levels = ("Basic", "Standard", "Protected", "Maximum")
 blocked_users = {"archived_usr", "terminated_vendor", "security_breach"}
 
 
-def check_access():
+def run_task2():
     """Перевіряє права доступу користувачів до ресурсів."""
     print("\n--- Ресурси системи (Завдання 2) ---")
 
