@@ -15,8 +15,16 @@ from shared.student import VARIANT_NUMBER  # noqa: E402
 
 # Дані 5 варіанту
 passwords = [
-    "DataS3cur3!", "123", "Crypto@Analysis", "test123", "Quantum#2023",
-    "access", "Security@Pro", "password1", "Adv@nced123", "guest123",
+    "DataS3cur3!",
+    "123",
+    "Crypto@Analysis",
+    "test123",
+    "Quantum#2023",
+    "access",
+    "Security@Pro",
+    "password1",
+    "Adv@nced123",
+    "guest123",
 ]
 
 criteria = {
@@ -27,7 +35,12 @@ criteria = {
 }
 
 forbidden_passwords = {
-    "123", "test123", "access", "password1", "guest123", "admin",
+    "123",
+    "test123",
+    "access",
+    "password1",
+    "guest123",
+    "admin",
 }
 
 
@@ -37,23 +50,23 @@ def evaluate_password(pwd: str) -> str:
 
     has_digit = True
     if criteria["require_digits"]:
-        has_digit = bool(re.search(r'\d', pwd))
+        has_digit = bool(re.search(r"\d", pwd))
 
     has_upper = True
     if criteria["require_upper"]:
-        has_upper = bool(re.search(r'[A-Z]', pwd))
+        has_upper = bool(re.search(r"[A-Z]", pwd))
 
     has_special = True
     if criteria["require_special"]:
-        has_special = bool(re.search(r'[^a-zA-Z0-9]', pwd))
+        has_special = bool(re.search(r"[^a-zA-Z0-9]", pwd))
 
-    has_lower = bool(re.search(r'[a-z]', pwd))
+    has_lower = bool(re.search(r"[a-z]", pwd))
 
     meets_all = has_digit and has_upper and has_special
     meets_some = has_digit or has_upper or has_special or has_lower
 
     is_forbidden = (
-            pwd in forbidden_passwords or length < criteria["min_length"]
+        pwd in forbidden_passwords or length < criteria["min_length"]
     )
     is_unique = passwords.count(pwd) == 1
 

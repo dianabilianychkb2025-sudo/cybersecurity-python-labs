@@ -17,9 +17,9 @@ from shared.student import VARIANT_NUMBER  # noqa: E402
 
 MIN_PASSWORD_LENGTH = 16
 PERSONAL_SALT = f"{VARIANT_NUMBER:05d}"
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-USERS_FILE = os.path.join(DATA_DIR, 'users.csv')
-LOG_FILE = os.path.join(DATA_DIR, 'log.json')
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+USERS_FILE = os.path.join(DATA_DIR, "users.csv")
+LOG_FILE = os.path.join(DATA_DIR, "log.json")
 
 
 class ValidationError(Exception):
@@ -53,7 +53,7 @@ def create_users(users_list: tuple):
     os.makedirs(DATA_DIR, exist_ok=True)
 
     try:
-        with open(USERS_FILE, mode='w', newline='', encoding='utf-8') as file:
+        with open(USERS_FILE, mode="w", newline="", encoding="utf-8") as file:
             writer = csv.writer(file)
             for username, password in users_list:
                 try:
@@ -66,23 +66,32 @@ def create_users(users_list: tuple):
 
 
 def read_users_db() -> list:
-    """Зчитує вміст CSV-файлу у список."""
+    """Зчитує вміст CSV-файлу у список без зайвого друку."""
     users_db = []
     try:
-        with open(USERS_FILE, encoding='utf-8') as file:
+        with open(USERS_FILE, encoding="utf-8") as file:
             reader = csv.reader(file)
-            print("\n--- База користувачів (users.csv) ---")
-            print(f"{'Логін':<15} | {'Хеш'}")
-            print("-" * 80)
             for row in reader:
                 if row:
                     users_db.append(row)
-                    print(f"{row[0]:<15} | {row[1]}")
     except FileNotFoundError:
         print("Файл бази даних не знайдено.")
     except (OSError, PermissionError) as e:
         print(f"Помилка читання файлу: {e}")
     return users_db
+
+
+def print_users_db():
+    """Виводить вміст CSV-файлу на екран один раз."""
+    users = read_users_db()
+    if not users:
+        return
+
+    print("\n--- База користувачів (users.csv) ---")
+    print(f"{'Логін':<15} | {'Хеш'}")
+    print("-" * 80)
+    for row in users:
+        print(f"{row[0]:<15} | {row[1]}")
 
 
 def log_event(func):
@@ -110,14 +119,14 @@ def log_event(func):
             logs = []
             if os.path.exists(LOG_FILE):
                 with (
-                    open(LOG_FILE, encoding='utf-8') as file,
+                    open(LOG_FILE, encoding="utf-8") as file,
                     contextlib.suppress(json.JSONDecodeError),
                 ):
                     logs = json.load(file)
 
             logs.append(log_entry)
 
-            with open(LOG_FILE, mode='w', encoding='utf-8') as file:
+            with open(LOG_FILE, mode="w", encoding="utf-8") as file:
                 json.dump(logs, file, indent=4)
         except (OSError, PermissionError) as e:
             print(f"Помилка запису логу: {e}")
@@ -166,6 +175,7 @@ def run_task3():
     print("\n1. Створення бази користувачів...")
     create_users(users_to_register)
 
+    # 1. Спроби входу (виконуються перед виведенням бази)
     print("\n2. Спроба входу (логується в log.json)...")
     try:
         is_diana_ok = login("diana", "MySuperSecurePassword123")
@@ -177,3 +187,6 @@ def run_task3():
         print(f"Вхід 'admin' (невірний): {status_admin}")
     except Exception as e:
         print(f"Системна помилка: {e}")
+
+    # 2. Виведення бази користувачів
+    print_users_db()
